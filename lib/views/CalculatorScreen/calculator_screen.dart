@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vault/controllers/calculator_controller.dart';
+import 'package:vault/views/CalculatorScreen/widgets/calculator_button.dart';
 import 'package:vault/widgets/custom_app_bar.dart';
 
 class CalculatorScreen extends StatefulWidget {
@@ -34,6 +35,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
                            controller.userInput.value,
@@ -69,34 +71,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                       final button = controller.button[index];
                       return button.isEmpty
                           ? const SizedBox()
-                          : Container(
-                              decoration: BoxDecoration(
-                                color: controller.getButtonBgColor(button),
-                                borderRadius: BorderRadius.circular(20),
-                                border: const Border(
-                                  top: BorderSide(
-                                      color: Colors.white, width: 1.5),
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.3),
-                                    blurRadius: 10,
-                                    spreadRadius: .5,
-                                  )
-                                ],
-                              ),
-                              child: Center(
-                                child: Text(
-                                  button,
-                                  style: TextStyle(
-                                    color:
-                                        controller.getButtonTextColor(button),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 40,
-                                  ),
-                                ),
-                              ),
-                            );
+                          : calculatorButton(button);
                     },
                   )
                 ],
@@ -107,4 +82,6 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
       ),
     );
   }
+
+
 }
