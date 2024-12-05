@@ -1,9 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vault/controllers/app_controller.dart';
 import 'package:vault/utils/config.dart';
-import 'package:vault/views/GetStarted/get_started_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,10 +12,11 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final appController = Get.put(AppController());
   @override
   void initState() {
     Timer(const Duration(seconds: 3), () {
-      Get.to(() => const GetStartedScreen(),);
+      appController.checkAppState();
     });
     super.initState();
   }

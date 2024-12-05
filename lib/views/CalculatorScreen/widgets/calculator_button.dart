@@ -7,7 +7,7 @@ Widget calculatorButton(String button) {
   final controller = Get.put(CalculatorController());
   return GestureDetector(
     onTap: () {
-     controller.handleButton(button);
+      controller.handleButton(button);
     },
     child: Container(
       decoration: BoxDecoration(

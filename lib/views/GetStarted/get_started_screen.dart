@@ -1,10 +1,11 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:vault/core/services/shared_services.dart';
 import 'package:vault/utils/colors.dart';
 import 'package:vault/utils/config.dart';
+import 'package:vault/utils/keys.dart';
 import 'package:vault/views/CalculatorScreen/calculator_screen.dart';
 import 'package:vault/widgets/custom_button.dart';
 
@@ -16,6 +17,16 @@ class GetStartedScreen extends StatefulWidget {
 }
 
 class _GetStartedScreenState extends State<GetStartedScreen> {
+  @override
+  void initState() {
+    SharedService().setData(
+      SetType.bool,
+      SharedKeys.already_opened,
+      true,
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);

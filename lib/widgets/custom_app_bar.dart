@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vault/views/CalculatorThemeScreen/calculator_theme_screen.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   CustomAppBar({
@@ -39,7 +40,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: action ??
           [
             IconButton(
-              onPressed: () {},
+              onPressed: () => Get.to(
+                () => const CalculatorThemeScreen(),
+              ),
               icon: const Icon(
                 Icons.settings,
                 color: Colors.white,
