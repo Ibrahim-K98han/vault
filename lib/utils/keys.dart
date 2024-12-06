@@ -1,3 +1,4 @@
 class SharedKeys{
-  static String already_opened = 'already_opened';
+  static String alreadyOpened = 'already_opened';
+  static String selectedTheme = 'selected_theme';
 }

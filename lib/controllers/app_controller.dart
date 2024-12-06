@@ -6,10 +6,11 @@ import 'package:vault/views/GetStarted/get_started_screen.dart';
 
 class AppController extends GetxController {
   final sharedServices = SharedService();
+
   Future<bool> checkAppFirstTime() async {
     return await sharedServices.getData(
           SetType.bool,
-          SharedKeys.already_opened,
+          SharedKeys.alreadyOpened,
         ) ??
         false;
   }
@@ -18,7 +19,7 @@ class AppController extends GetxController {
     final already_opened = await checkAppFirstTime();
 
     if (already_opened) {
-      Get.offAll(() =>  const CalculatorScreen());
+      Get.offAll(() => const CalculatorScreen());
     } else {
       Get.offAll(() => const GetStartedScreen());
     }

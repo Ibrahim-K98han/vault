@@ -21,7 +21,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
   void initState() {
     SharedService().setData(
       SetType.bool,
-      SharedKeys.already_opened,
+      SharedKeys.alreadyOpened,
       true,
     );
     super.initState();
