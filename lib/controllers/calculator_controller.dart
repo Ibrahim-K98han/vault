@@ -3,9 +3,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:math_expressions/math_expressions.dart';
+import 'package:vault/controllers/app_controller.dart';
 import 'package:vault/utils/colors.dart';
 
 class CalculatorController extends GetxController {
+  final appController = Get.put(AppController());
+  RxString userInput = RxString('');
+  RxString result = RxString('0');
   List<String> button = [
     '',
     '',
@@ -50,9 +54,6 @@ class CalculatorController extends GetxController {
     }
   }
 
-  RxString userInput = RxString('');
-  RxString result = RxString('0');
-
   handleButton(String text) {
     if (text == 'AC') {
       userInput.value = '';
@@ -72,11 +73,34 @@ class CalculatorController extends GetxController {
     }
 
     if (text == '=') {
-      var calculated = calculate();
-      if (calculated.endsWith('.0')) {
-        result.value = calculated.replaceAll('.0', '');
-        update();
-        return;
+      if (appController.lockerPin.value.isEmpty) {
+        if (appController.tempPin.value.isEmpty) {
+          appController.tempPin.value = userInput.value;
+          userInput.value = '';
+          update();
+          print('temp pine is ${appController.tempPin.value}');
+          return;
+        } else {
+          if (appController.tempPin.value != userInput.value) {
+            Get.snackbar(
+              'Incorrect',
+              'PIN Number should be match with previous one',
+              colorText: Colors.white,
+            );
+            return;
+          } else {
+            appController.setLockerPin();
+            update();
+            return;
+          }
+        }
+      } else {
+        var calculated = calculate();
+        if (calculated.endsWith('.0')) {
+          result.value = calculated.replaceAll('.0', '');
+          update();
+          return;
+        }
       }
     }
 

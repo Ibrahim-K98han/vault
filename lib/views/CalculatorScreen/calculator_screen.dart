@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vault/controllers/app_controller.dart';
 import 'package:vault/controllers/calculator_controller.dart';
 import 'package:vault/views/CalculatorScreen/widgets/calculator_button.dart';
 import 'package:vault/widgets/custom_app_bar.dart';
@@ -12,6 +13,8 @@ class CalculatorScreen extends StatefulWidget {
 }
 
 class _CalculatorScreenState extends State<CalculatorScreen> {
+  final appController = Get.put(AppController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,12 +28,14 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Please enter your passcode',
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(.5),
-                    ),
-                  ),
+                  appController.lockerPin.value.isEmpty
+                      ? Text(
+                          'Please ${appController.tempPin.value.isEmpty ? 'enter' : 'confirm'} your passcode',
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(.5),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -38,7 +43,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                           controller.userInput.value,
+                            controller.userInput.value,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 35,
@@ -46,7 +51,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                             ),
                           ),
                           Text(
-                           controller.result.value,
+                            controller.result.value,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 40,
@@ -82,6 +87,4 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
       ),
     );
   }
-
-
 }
