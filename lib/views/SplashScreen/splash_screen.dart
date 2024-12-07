@@ -15,6 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
   final appController = Get.put(AppController());
   @override
   void initState() {
+    appController.checkSelectedTheme();
     Timer(const Duration(seconds: 3), () {
       appController.checkAppState();
     });
