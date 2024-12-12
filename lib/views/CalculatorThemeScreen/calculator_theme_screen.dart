@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:vault/controllers/ads_controller.dart';
 import 'package:vault/controllers/theme_controller.dart';
 import 'package:vault/core/services/shared_services.dart';
 import 'package:vault/utils/colors.dart';
@@ -12,81 +14,91 @@ class CalculatorThemeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final adsController = Get.put(AdsController());
     return Scaffold(
-        appBar: CustomAppBar(
-          isLeading: true,
-          title: 'Theme',
-          action: [],
-        ),
-        body: GetBuilder<ThemeController>(
-          builder: (controller) {
-            return Padding(
-              padding: const EdgeInsets.all(15),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: .4,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
-                    ),
-                    itemCount: controller.themes.length,
-                    shrinkWrap: true,
-                    primary: false,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          controller.changeTheme(index);
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            color: AppColors.secondary,
-                            border: Border.all(
-                                color: controller.selectedTheme.value == index
-                                    ? AppColors.primary
-                                    : Colors.white.withOpacity(0.4)),
-                            borderRadius: BorderRadius.circular(
-                              20,
-                            ),
-                            image: DecorationImage(
-                              image: AssetImage(controller.themes[index]),
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                          child: controller.selectedTheme.value == index
-                              ? const Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Icon(
-                                      Icons.check_circle,
-                                      color: AppColors.primary,
-                                    )
-                                  ],
-                                )
-                              : const SizedBox.shrink(),
-                        ),
-                      );
-                    },
+      appBar: CustomAppBar(
+        isLeading: true,
+        title: 'Theme',
+        action: [],
+      ),
+      body: GetBuilder<ThemeController>(
+        builder: (controller) {
+          return Padding(
+            padding: const EdgeInsets.all(15),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: .4,
+                    crossAxisSpacing: 15,
+                    mainAxisSpacing: 15,
                   ),
-                  CustomButton(
-                    title: 'Confirm',
-                    onTap: () {
-                      SharedService().setData(
-                        SetType.int,
-                        SharedKeys.selectedTheme,
-                        controller.selectedTheme.value,
-                      );
-                      Get.back();
-                    },
-                  )
-                ],
+                  itemCount: controller.themes.length,
+                  shrinkWrap: true,
+                  primary: false,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        controller.changeTheme(index);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: AppColors.secondary,
+                          border: Border.all(
+                              color: controller.selectedTheme.value == index
+                                  ? AppColors.primary
+                                  : Colors.white.withOpacity(0.4)),
+                          borderRadius: BorderRadius.circular(
+                            20,
+                          ),
+                          image: DecorationImage(
+                            image: AssetImage(controller.themes[index]),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        child: controller.selectedTheme.value == index
+                            ? const Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Icon(
+                                    Icons.check_circle,
+                                    color: AppColors.primary,
+                                  )
+                                ],
+                              )
+                            : const SizedBox.shrink(),
+                      ),
+                    );
+                  },
+                ),
+                CustomButton(
+                  title: 'Confirm',
+                  onTap: () {
+                    SharedService().setData(
+                      SetType.int,
+                      SharedKeys.selectedTheme,
+                      controller.selectedTheme.value,
+                    );
+                    Get.back();
+                  },
+                )
+              ],
+            ),
+          );
+        },
+      ),
+      bottomNavigationBar: adsController.bannerAd == null
+          ? SizedBox()
+          : SizedBox(
+              height: adsController.bannerAd!.size.height.toDouble(),
+              width: adsController.bannerAd!.size.width.toDouble(),
+              child: AdWidget(
+                ad: adsController.bannerAd!,
               ),
-            );
-          },
-        ));
+            ),
+    );
   }
 }

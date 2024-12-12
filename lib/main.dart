@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:vault/bindings/all_binding.dart';
-import 'package:vault/controllers/theme_controller.dart';
-import 'package:vault/core/services/shared_services.dart';
 import 'package:vault/utils/colors.dart';
-import 'package:vault/utils/keys.dart';
 import 'package:vault/views/SplashScreen/splash_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   AllBinding().dependencies();
   runApp(const MyApp());
 }
