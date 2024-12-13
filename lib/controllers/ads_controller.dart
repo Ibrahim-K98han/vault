@@ -6,14 +6,16 @@ import 'package:vault/utils/config.dart';
 class AdsController extends GetxController {
   RxBool isBannerLoaded = RxBool(false);
   BannerAd? bannerAd;
+  InterstitialAd? interstitialAd;
 
   @override
   void onInit() {
     loadBannerAds();
+    loadInterstitialAds();
     super.onInit();
   }
 
-  /// Loads a banner ad.
+  /// Loads a banner ad ///
   void loadBannerAds() async {
     bannerAd = BannerAd(
       adUnitId: AppConfig.bannerAdsUnitID,
@@ -31,5 +33,23 @@ class AdsController extends GetxController {
         },
       ),
     )..load();
+  }
+
+  /// Loads a InterstitialAd ads ///
+  void loadInterstitialAds() {
+    InterstitialAd.load(
+      adUnitId: AppConfig.interAdsUnitID,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          debugPrint('$ad loaded.');
+          interstitialAd = ad;
+          update();
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          debugPrint('InterstitialAd failed to load: $error');
+        },
+      ),
+    );
   }
 }

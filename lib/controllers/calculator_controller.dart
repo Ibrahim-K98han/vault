@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:vault/controllers/app_controller.dart';
 import 'package:vault/utils/colors.dart';
+import 'package:vault/views/SplashScreen/splash_screen.dart';
 
 class CalculatorController extends GetxController {
   final appController = Get.put(AppController());
@@ -95,11 +96,20 @@ class CalculatorController extends GetxController {
           }
         }
       } else {
-        var calculated = calculate();
-        if (calculated.endsWith('.0')) {
-          result.value = calculated.replaceAll('.0', '');
-          update();
+        if (appController.lockerPin.value == userInput.value) {
+          Get.to(
+            () => const SplashScreen(
+              isLoading: true,
+            ),
+          );
           return;
+        } else {
+          var calculated = calculate();
+          if (calculated.endsWith('.0')) {
+            result.value = calculated.replaceAll('.0', '');
+            update();
+            return;
+          }
         }
       }
     }

@@ -1,11 +1,18 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:vault/controllers/ads_controller.dart';
 import 'package:vault/controllers/app_controller.dart';
 import 'package:vault/utils/config.dart';
+import 'package:vault/views/HomeScreen/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  final bool? isLoading;
+  const SplashScreen({
+    super.key,
+    this.isLoading,
+  });
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -13,12 +20,25 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   final appController = Get.put(AppController());
+  final adsController = Get.put(AdsController());
   @override
   void initState() {
-    appController.checkSelectedTheme();
-    Timer(const Duration(seconds: 3), () {
-      appController.checkAppState();
-    });
+    if (widget.isLoading == true) {
+      adsController.interstitialAd!.fullScreenContentCallback =
+          FullScreenContentCallback(
+        onAdDismissedFullScreenContent: (ad) {
+          Get.offAll(
+            () => const HomeScreen(),
+          );
+        },
+      );
+      adsController.interstitialAd!.show();
+    } else {
+      appController.checkSelectedTheme();
+      Timer(const Duration(seconds: 3), () {
+        appController.checkAppState();
+      });
+    }
     super.initState();
   }
 

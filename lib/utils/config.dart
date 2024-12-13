@@ -5,5 +5,6 @@ class AppConfig{
 
   //Start google ads setting//
   static const String bannerAdsUnitID = 'ca-app-pub-3940256099942544/9214589741';
+  static const String interAdsUnitID = 'ca-app-pub-3940256099942544/1033173712';
   //End google ads setting//
 }
